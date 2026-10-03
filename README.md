@@ -63,3 +63,16 @@ Documento de la actividad en GitHub, con la tabla de entornos y el diagrama de f
 Pull request de la actividad hacia `develop`:
 
 ![Pull request Actividad 1](evidencias/01-pull-request.png)
+
+Pull request fusionado en `develop`:
+
+![PR Actividad 1 fusionado](evidencias/01-pr-fusionado.png)
+
+## Actividad 2: Implementación de MDM
+
+Desarrollo completo en [docs/02-mdm.md](docs/02-mdm.md).
+
+- 2.1: seis entidades maestras para DataCorp (Cliente, Producto, Tienda, Proveedor, Cuenta y Calendario comercial) con sus atributos, fuentes, reglas de calidad y responsable.
+- 2.2: diagrama del flujo de consolidación desde las fuentes hasta el registro maestro, y de la sincronización con los sistemas transaccionales y analíticos.
+- 2.3: políticas de gobernanza del dato maestro Cliente: definición de cliente activo, limpieza y deduplicación, flujo de aprobación de cambios, y acceso y seguridad.
+- 2.4: simulación de un conflicto entre dos definiciones de cliente activo, cómo lo resuelve MDM y su efecto en la replicabilidad de los modelos.

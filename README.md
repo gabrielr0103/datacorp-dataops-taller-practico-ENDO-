@@ -51,3 +51,15 @@ Desarrollo completo en [docs/01-entornos-aislados.md](docs/01-entornos-aislados.
 - 1.1: definición de DEV, QA/Staging y PROD para DataCorp (propósito, acceso, datos, infraestructura y control de código), con la justificación de cada decisión.
 - 1.2: diagrama del recorrido de un cambio en el modelo de predicción de ventas, desde el push en una rama feature hasta la disponibilidad en vivo.
 - 1.3: protocolo de actuación cuando el modelo falla en QA, con las herramientas y validaciones que impiden que llegue a producción.
+
+### Evidencias
+
+Documento de la actividad en GitHub, con la tabla de entornos y el diagrama de flujo:
+
+![Tabla de entornos](evidencias/01-tabla-entornos.png)
+
+![Diagrama de flujo](evidencias/01-diagrama-flujo.png)
+
+Pull request de la actividad hacia `develop`:
+
+![Pull request Actividad 1](evidencias/01-pull-request.png)

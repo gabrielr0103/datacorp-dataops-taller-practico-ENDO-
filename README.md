@@ -28,7 +28,7 @@ El repositorio aplica la misma lógica de entornos que se propone para la empres
 | 1 | Diseño de entornos aislados | [docs/01-entornos-aislados.md](docs/01-entornos-aislados.md) | Completada |
 | 2 | Implementación de MDM | [docs/02-mdm.md](docs/02-mdm.md) | Completada |
 | 3 | Control de versiones para todo | [docs/03-control-versiones.md](docs/03-control-versiones.md) | Completada |
-| 4 | Infraestructura como Código | [docs/04-iac.md](docs/04-iac.md) | Pendiente |
+| 4 | Infraestructura como Código | [docs/04-iac.md](docs/04-iac.md) | Completada |
 | 5 | Continuous Delivery para DataOps | [docs/05-continuous-delivery.md](docs/05-continuous-delivery.md) | Pendiente |
 | 6 | Integración final | [docs/06-integracion-final.md](docs/06-integracion-final.md) | Pendiente |
 
@@ -185,3 +185,21 @@ Diagrama del flujo de revisión e integración con QA (3.3):
 Regla de protección activa sobre `main` y `develop`:
 
 ![Ruleset de protección](evidencias/03-ruleset.png)
+
+Pull request fusionado en `develop`:
+
+![PR Actividad 3 fusionado](evidencias/03-pr-fusionado.png)
+
+## Actividad 4: Infraestructura como Código (IaC)
+
+Desarrollo completo en [docs/04-iac.md](docs/04-iac.md). El código de Terraform está en [infra/terraform](infra/terraform).
+
+- 4.1: archivos de Terraform con el bucket S3 de staging, las estaciones EC2 de DEV, la base RDS de PROD y el rol IAM con permisos restringidos. El mismo código crea los tres entornos, y lo que cambia entre ellos está en `envs/*.tfvars`.
+- 4.2: cómo ese código permite replicar entornos idénticos y qué comandos se usan para aplicar los cambios.
+- 4.3: flujo de trabajo de IaC desde la edición del código hasta el despliegue, con diagrama.
+
+### Evidencias
+
+Formato y sintaxis del código validados en local con Terraform 1.12.2:
+
+![Validación de Terraform](evidencias/04-terraform-validate.png)

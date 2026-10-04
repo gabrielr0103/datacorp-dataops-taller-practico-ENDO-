@@ -161,3 +161,8 @@ Estructura creada con el script de la actividad:
 
 ![Estructura del repositorio](evidencias/03-estructura-creada.png)
 
+
+Pruebas y linter ejecutados en local antes de abrir el pull request:
+
+![Pruebas locales](evidencias/03-pruebas-locales.png)
+

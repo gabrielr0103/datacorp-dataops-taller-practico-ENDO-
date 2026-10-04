@@ -22,6 +22,7 @@ calidad:
 umbrales:
   mape_max: 15
   tolerancia_vs_produccion: 1
+  mape_max_segmento: 20   # MAPE máximo por país (Actividad 1.3)
 
 mdm:
   definicion_cliente_activo: 1.0.0

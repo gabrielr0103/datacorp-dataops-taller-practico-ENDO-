@@ -22,6 +22,7 @@ calidad:
 umbrales:
   mape_max: 25          # en DEV solo se exige que el modelo no esté roto
   tolerancia_vs_produccion: 5
+  mape_max_segmento: 35 # MAPE máximo por país
 
 mdm:
   definicion_cliente_activo: 1.0.0

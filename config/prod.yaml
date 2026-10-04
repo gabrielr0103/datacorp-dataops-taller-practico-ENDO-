@@ -1,0 +1,27 @@
+# Entorno de producción (PROD). Solo lo usa el pipeline de CD.
+entorno: prod
+
+base_datos:
+  host: datacorp-prod.rds.datacorp.internal
+  puerto: 5432
+  nombre: ventas
+
+almacenamiento:
+  bucket: datacorp-prod
+
+mlflow:
+  tracking_uri: http://mlflow.datacorp.internal:5000
+
+datos:
+  muestra_pct: 100
+  pii: restringida      # el modelo solo lee la vista seudonimizada (Actividad 2.3)
+
+calidad:
+  max_nulos_pct: 10
+
+umbrales:
+  mape_max: 15
+  tolerancia_vs_produccion: 1
+
+mdm:
+  definicion_cliente_activo: 1.0.0

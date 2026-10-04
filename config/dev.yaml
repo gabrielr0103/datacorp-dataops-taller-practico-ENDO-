@@ -1,0 +1,27 @@
+# Entorno de desarrollo (DEV): zona de experimentación.
+entorno: dev
+
+base_datos:
+  host: postgres-dev.datacorp.internal   # PostgreSQL en la instancia EC2 de DEV
+  puerto: 5432
+  nombre: ventas_muestra
+
+almacenamiento:
+  bucket: datacorp-dev
+
+mlflow:
+  tracking_uri: http://mlflow-dev.datacorp.internal:5000
+
+datos:
+  muestra_pct: 5        # muestra anonimizada de PROD (Actividad 1.1)
+  pii: false
+
+calidad:
+  max_nulos_pct: 10
+
+umbrales:
+  mape_max: 25          # en DEV solo se exige que el modelo no esté roto
+  tolerancia_vs_produccion: 5
+
+mdm:
+  definicion_cliente_activo: 1.0.0

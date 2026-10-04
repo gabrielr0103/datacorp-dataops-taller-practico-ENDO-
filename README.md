@@ -30,7 +30,7 @@ El repositorio aplica la misma lógica de entornos que se propone para la empres
 | 3 | Control de versiones para todo | [docs/03-control-versiones.md](docs/03-control-versiones.md) | Completada |
 | 4 | Infraestructura como Código | [docs/04-iac.md](docs/04-iac.md) | Completada |
 | 5 | Continuous Delivery para DataOps | [docs/05-continuous-delivery.md](docs/05-continuous-delivery.md) | Completada |
-| 6 | Integración final | [docs/06-integracion-final.md](docs/06-integracion-final.md) | Pendiente |
+| 6 | Integración final | [docs/06-integracion-final.md](docs/06-integracion-final.md) | Completada |
 
 Las capturas de pantalla de cada actividad están en la carpeta [evidencias](evidencias/).   
 
@@ -258,3 +258,16 @@ Inicio del Jenkinsfile con las reglas por rama y la etapa Build & Test:
 Diagrama del pipeline completo con los tres pilares (5.4):
 
 ![Pipeline completo](evidencias/05-diagrama-pipeline.png)
+
+Pull request fusionado en `develop`:
+
+![PR Actividad 5 fusionado](evidencias/05-pr-fusionado.png)
+
+## Actividad 6: Integración final, la tripleta del control
+
+Desarrollo completo en [docs/06-integracion-final.md](docs/06-integracion-final.md). El informe ejecutivo está en [docs/06-informe-ejecutivo.md](docs/06-informe-ejecutivo.md).
+
+- 6.1: plan de implementación de 24 semanas en seis fases, con cronograma, responsables y dependencias entre entornos aislados, MDM, control de versiones, IaC y CD.
+- 6.2: métricas de éxito por componente, con la forma de medirlas y la meta a seis meses.
+- 6.3: informe ejecutivo para la dirección de DataCorp (unas 1.400 palabras) con los riesgos actuales, la solución, los beneficios, el plan y los recursos.
+- 6.4: diagrama de la arquitectura DataOps completa.

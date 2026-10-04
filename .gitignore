@@ -219,3 +219,36 @@ __marimo__/
 
 # Archivos del sistema de macOS
 .DS_Store
+# ------------------------------------------------------------
+# Reglas agregadas en la Actividad 3 (lo que no se versiona en Git)
+# ------------------------------------------------------------
+
+# Datos: los archivos van a S3 con DVC; en Git solo quedan los punteros .dvc
+/data/raw/*
+!/data/raw/*.dvc
+/data/processed/
+
+# Modelos entrenados: se guardan en el registro de MLflow
+/modelos/
+*.pkl
+*.joblib
+mlruns/
+
+# Notebooks: se versiona la exportación .py hecha con jupytext
+*.ipynb
+
+# Reportes generados por el pipeline (las métricas sí se versionan)
+/reportes/*
+!/reportes/metricas.json
+
+# Terraform: estado, planes y caché de proveedores
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+crash.log
+
+# Credenciales y configuración local
+.env
+*.pem
+config/*.local.yaml

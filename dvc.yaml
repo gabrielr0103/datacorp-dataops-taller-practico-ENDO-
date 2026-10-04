@@ -1,0 +1,31 @@
+# Etapas del pipeline de datos que DVC puede reproducir con "dvc repro".
+stages:
+  validar:
+    cmd: python -m src.calidad.validar_datos --entorno dev --archivo data/raw/ventas.csv
+    deps:
+      - src/calidad/validar_datos.py
+      - data/raw/ventas.csv
+      - config/dev.yaml
+
+  features:
+    cmd: >-
+      python -m src.features.construir_features
+      --ventas data/raw/ventas.csv
+      --calendario data/raw/calendario_comercial.csv
+      --salida data/processed/features.csv
+    deps:
+      - src/features/construir_features.py
+      - data/raw/ventas.csv
+      - data/raw/calendario_comercial.csv
+    outs:
+      - data/processed/features.csv
+
+  entrenar:
+    cmd: python -m src.modelos.entrenar --entorno dev --features data/processed/features.csv
+    deps:
+      - src/modelos/entrenar.py
+      - config/modelo_ventas.json
+      - data/processed/features.csv
+    metrics:
+      - reportes/metricas.json:
+          cache: false

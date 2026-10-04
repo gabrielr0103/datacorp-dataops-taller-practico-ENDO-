@@ -1,0 +1,31 @@
+# Procedencia de data/raw/ventas.csv
+dataset: ventas
+archivo: data/raw/ventas.csv
+version_dvc: 8c1f3a9e0b7d4c25a6e2f19d03b4c7e1   # igual al md5 de ventas.csv.dvc
+descripcion: Ventas diarias por tienda de las cadenas activas, con los clientes activos del hub MDM.
+
+fuente:
+  sistema: base de QA (copia de PROD con la PII enmascarada)
+  tablas:
+    - ventas.transacciones
+    - mdm.tienda
+    - mdm.tienda_xref
+    - mdm.clientes_activos_por_tienda
+  consulta: sql/consultas/ventas_diarias_por_tienda.sql
+
+extraccion:
+  script: src/ingesta/extraer_ventas.py
+  commit: 4e7b2d1          # commit del código que generó el archivo
+  fecha: 2026-10-01
+  parametros:
+    inicio: 2024-10-01
+    fin: 2026-09-30
+    version_cliente_activo: 1.0.0
+
+contenido:
+  filas: 1248930
+  columnas: [fecha, tienda_mdm_id, cuenta_mdm_id, pais, ventas, transacciones, clientes_activos]
+  contiene_pii: false
+
+responsable: Líder de Analítica de Clientes
+uso_permitido: Entrenamiento y validación de modelos de DataCorp, según los contratos con cada cadena.

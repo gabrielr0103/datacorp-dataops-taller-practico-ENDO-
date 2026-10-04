@@ -1,0 +1,4 @@
+[core]
+    remote = s3-datacorp
+['remote "s3-datacorp"']
+    url = s3://datacorp-dvc-store/dataops

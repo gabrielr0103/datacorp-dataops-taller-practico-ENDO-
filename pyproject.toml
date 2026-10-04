@@ -1,0 +1,12 @@
+[project]
+name = "datacorp-dataops"
+version = "0.1.0"
+description = "Modelo de predicción de ventas de DataCorp Analytics"
+requires-python = ">=3.12"
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 110

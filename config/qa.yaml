@@ -1,0 +1,28 @@
+# Entorno de QA / staging: réplica de PROD con la PII enmascarada.
+entorno: qa
+
+base_datos:
+  host: datacorp-qa.rds.datacorp.internal
+  puerto: 5432
+  nombre: ventas
+
+almacenamiento:
+  bucket: datacorp-staging
+
+mlflow:
+  tracking_uri: http://mlflow.datacorp.internal:5000
+
+datos:
+  muestra_pct: 100
+  pii: enmascarada
+
+calidad:
+  max_nulos_pct: 10
+
+umbrales:
+  mape_max: 15                  # umbral de la Actividad 1.3
+  tolerancia_vs_produccion: 1   # puntos de MAPE por encima del modelo en producción
+  mape_max_segmento: 20         # MAPE máximo por país (Actividad 1.3)
+
+mdm:
+  definicion_cliente_activo: 1.0.0

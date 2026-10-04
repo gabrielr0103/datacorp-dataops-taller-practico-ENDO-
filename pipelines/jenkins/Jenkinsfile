@@ -1,0 +1,246 @@
+// Pipeline de CI/CD del modelo de predicción de ventas (Actividad 5).
+//
+// Qué corre en cada rama:
+//   feature/* y pull requests  ->  Build & Test
+//   develop                     ->  Build & Test, Test de Datos, Train & Validate, Empaquetado
+//                                   y Despliegue en Staging
+//   main                        ->  Build & Test y Despliegue en Producción del mismo modelo
+//                                   que se validó en Staging (no se vuelve a entrenar)
+//
+// El agente de Jenkins corre en EC2 con un rol IAM, así que el pipeline no guarda llaves de AWS.
+
+pipeline {
+    agent {
+        docker { image 'python:3.12-slim' }
+    }
+
+    environment {
+        MLFLOW_TRACKING_URI = 'http://mlflow.datacorp.internal:5000'
+    }
+
+    options {
+        timeout(time: 2, unit: 'HOURS')
+        disableConcurrentBuilds()
+        buildDiscarder(logRotator(numToKeepStr: '30'))
+    }
+
+    stages {
+        stage('Build & Test') {
+            parallel {
+                stage('Código') {
+                    steps {
+                        sh 'pip install --no-cache-dir -r requirements.txt'
+                        sh 'ruff check src tests pipelines'
+                        sh 'pytest -q --junitxml=reportes/pruebas.xml'
+                    }
+                    post {
+                        always {
+                            junit 'reportes/pruebas.xml'
+                        }
+                    }
+                }
+                stage('Terraform') {
+                    agent {
+                        docker {
+                            image 'hashicorp/terraform:1.12'
+                            args '--entrypoint='
+                            reuseNode true
+                        }
+                    }
+                    steps {
+                        dir('infra/terraform') {
+                            sh 'terraform fmt -check -recursive'
+                            sh 'terraform init -backend=false'
+                            sh 'terraform validate'
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Test de Datos') {
+            when { branch 'develop' }
+            steps {
+                sh 'dvc pull data/raw/ventas.csv data/raw/calendario_comercial.csv'
+                sh 'python -m src.calidad.validar_datos --entorno qa --archivo data/raw/ventas.csv'
+            }
+        }
+
+        stage('Train & Validate') {
+            when { branch 'develop' }
+            steps {
+                sh '''
+                    python -m src.features.construir_features \
+                        --ventas data/raw/ventas.csv \
+                        --calendario data/raw/calendario_comercial.csv \
+                        --salida data/processed/features.csv
+                '''
+                script {
+                    def mapeProduccion = sh(script: 'python -m src.modelos.registro campeon', returnStdout: true).trim()
+                    def comparacion = mapeProduccion ? "--mape-produccion ${mapeProduccion}" : ''
+                    sh "python -m src.modelos.entrenar --entorno qa --features data/processed/features.csv ${comparacion}"
+                }
+            }
+            post {
+                always {
+                    archiveArtifacts artifacts: 'reportes/metricas.json', allowEmptyArchive: true
+                }
+            }
+        }
+
+        stage('Empaquetado') {
+            when { branch 'develop' }
+            steps {
+                sh 'python -m src.modelos.registro registrar --modelo-uri "$(cat reportes/modelo_uri.txt)" --alias candidato'
+            }
+        }
+
+        stage('Despliegue en Staging') {
+            when { branch 'develop' }
+            environment {
+                DB = credentials('db-qa')
+            }
+            stages {
+                stage('Infraestructura QA') {
+                    agent {
+                        docker {
+                            image 'hashicorp/terraform:1.12'
+                            args '--entrypoint='
+                            reuseNode true
+                        }
+                    }
+                    steps {
+                        dir('infra/terraform') {
+                            sh 'terraform init -input=false'
+                            sh 'terraform workspace select -or-create qa'
+                            sh 'terraform plan -input=false -var-file=envs/qa.tfvars -out=qa.tfplan'
+                            sh 'terraform apply -input=false qa.tfplan'
+                        }
+                    }
+                }
+                stage('Migraciones QA') {
+                    agent {
+                        docker {
+                            image 'flyway/flyway:10'
+                            args '--entrypoint='
+                            reuseNode true
+                        }
+                    }
+                    steps {
+                        sh '''
+                            flyway -url=jdbc:postgresql://datacorp-qa.rds.datacorp.internal:5432/ventas \
+                                -user="$DB_USR" -password="$DB_PSW" \
+                                -locations=filesystem:sql/migrations migrate
+                        '''
+                    }
+                }
+                stage('Modelo QA') {
+                    steps {
+                        sh 'python -m src.modelos.registro promover --desde candidato --hacia staging'
+                        sh 'python -m src.modelos.registro verificar --alias staging --features data/processed/features.csv'
+                    }
+                }
+            }
+        }
+
+        stage('Despliegue en Producción') {
+            when {
+                beforeInput true
+                branch 'main'
+            }
+            input {
+                message '¿Desplegar en Producción el modelo validado en Staging?'
+                ok 'Desplegar'
+                submitter 'lider-tecnico'
+            }
+            environment {
+                DB = credentials('db-prod')
+            }
+            stages {
+                stage('Infraestructura PROD') {
+                    agent {
+                        docker {
+                            image 'hashicorp/terraform:1.12'
+                            args '--entrypoint='
+                            reuseNode true
+                        }
+                    }
+                    steps {
+                        dir('infra/terraform') {
+                            sh 'terraform init -input=false'
+                            sh 'terraform workspace select -or-create prod'
+                            sh 'terraform plan -input=false -var-file=envs/prod.tfvars -out=prod.tfplan'
+                            sh 'terraform apply -input=false prod.tfplan'
+                        }
+                    }
+                }
+                stage('Respaldo de la base') {
+                    agent {
+                        docker {
+                            image 'amazon/aws-cli:2.22.0'
+                            args '--entrypoint='
+                            reuseNode true
+                        }
+                    }
+                    steps {
+                        sh '''
+                            aws rds create-db-snapshot \
+                                --db-instance-identifier datacorp-prod-ventas \
+                                --db-snapshot-identifier pre-migracion-$BUILD_NUMBER
+                            aws rds wait db-snapshot-available \
+                                --db-snapshot-identifier pre-migracion-$BUILD_NUMBER
+                        '''
+                    }
+                }
+                stage('Migraciones PROD') {
+                    agent {
+                        docker {
+                            image 'flyway/flyway:10'
+                            args '--entrypoint='
+                            reuseNode true
+                        }
+                    }
+                    steps {
+                        sh '''
+                            flyway -url=jdbc:postgresql://datacorp-prod.rds.datacorp.internal:5432/ventas \
+                                -user="$DB_USR" -password="$DB_PSW" \
+                                -locations=filesystem:sql/migrations migrate
+                        '''
+                    }
+                }
+                stage('Modelo PROD') {
+                    steps {
+                        sh 'dvc pull data/raw/ventas.csv data/raw/calendario_comercial.csv'
+                        sh '''
+                            python -m src.features.construir_features \
+                                --ventas data/raw/ventas.csv \
+                                --calendario data/raw/calendario_comercial.csv \
+                                --salida data/processed/features.csv
+                        '''
+                        sh 'python -m src.modelos.registro promover --desde staging --hacia produccion'
+                        sh 'python -m src.modelos.registro verificar --alias produccion --features data/processed/features.csv'
+                    }
+                    post {
+                        failure {
+                            // Rollback: el alias "produccion" vuelve a la versión anterior.
+                            sh 'python -m src.modelos.registro promover --desde anterior --hacia produccion'
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+        failure {
+            slackSend channel: '#dataops-alertas',
+                      color: 'danger',
+                      message: "Falló ${env.JOB_NAME} #${env.BUILD_NUMBER} en la rama ${env.BRANCH_NAME}: ${env.BUILD_URL}"
+        }
+        success {
+            slackSend channel: '#dataops-alertas',
+                      color: 'good',
+                      message: "${env.JOB_NAME} #${env.BUILD_NUMBER} terminó bien en la rama ${env.BRANCH_NAME}"
+        }
+    }
+}

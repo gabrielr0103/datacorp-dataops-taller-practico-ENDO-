@@ -1,0 +1,5 @@
+outs:
+- md5: 2b7e91d4c0a35f86e14d9b27c6a0f358
+  size: 61440
+  hash: md5
+  path: calendario_comercial.csv

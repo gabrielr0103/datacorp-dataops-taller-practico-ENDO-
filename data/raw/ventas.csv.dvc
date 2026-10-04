@@ -1,0 +1,5 @@
+outs:
+- md5: 8c1f3a9e0b7d4c25a6e2f19d03b4c7e1
+  size: 96482117
+  hash: md5
+  path: ventas.csv

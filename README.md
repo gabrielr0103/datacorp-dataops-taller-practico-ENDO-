@@ -271,3 +271,25 @@ Desarrollo completo en [docs/06-integracion-final.md](docs/06-integracion-final.
 - 6.2: métricas de éxito por componente, con la forma de medirlas y la meta a seis meses.
 - 6.3: informe ejecutivo para la dirección de DataCorp (unas 1.400 palabras) con los riesgos actuales, la solución, los beneficios, el plan y los recursos.
 - 6.4: diagrama de la arquitectura DataOps completa.
+
+### Evidencias
+
+Pull request de la actividad hacia `develop`:
+
+![Pull request Actividad 6](evidencias/06-pull-request.png)
+
+Cronograma del plan de implementación (6.1):
+
+![Cronograma](evidencias/06-cronograma.png)
+
+Métricas de éxito por componente (6.2):
+
+![Métricas de éxito](evidencias/06-metricas.png)
+
+Inicio del informe ejecutivo (6.3):
+
+![Informe ejecutivo](evidencias/06-informe-ejecutivo.png)
+
+Arquitectura DataOps completa (6.4):
+
+![Arquitectura DataOps](evidencias/06-arquitectura.png)

@@ -1,0 +1,20 @@
+{
+  "nombre": "modelo_ventas",
+  "objetivo": "ventas",
+  "variables": [
+    "dia_semana",
+    "mes",
+    "es_festivo",
+    "ventas_lag_7",
+    "ventas_media_28",
+    "clientes_activos"
+  ],
+  "dias_validacion": 56,
+  "hiperparametros": {
+    "n_estimators": 400,
+    "max_depth": 6,
+    "learning_rate": 0.05,
+    "subsample": 0.8,
+    "random_state": 42
+  }
+}

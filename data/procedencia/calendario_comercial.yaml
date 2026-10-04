@@ -1,0 +1,21 @@
+# Procedencia de data/raw/calendario_comercial.csv
+dataset: calendario_comercial
+archivo: data/raw/calendario_comercial.csv
+version_dvc: 2b7e91d4c0a35f86e14d9b27c6a0f358   # igual al md5 de calendario_comercial.csv.dvc
+descripcion: Festivos, temporadas y eventos promocionales por país y cadena.
+
+fuente:
+  sistema: hub MDM (entidad Calendario comercial, Actividad 2.1)
+  tabla: mdm.calendario_comercial
+
+extraccion:
+  metodo: exportación diaria del hub MDM
+  fecha: 2026-10-01
+
+contenido:
+  paises: [CO, PE, EC]
+  desde: 2024-01-01
+  hasta: 2026-12-31
+  contiene_pii: false
+
+responsable: Gerente de Customer Success

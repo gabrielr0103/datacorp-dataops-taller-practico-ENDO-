@@ -1,0 +1,16 @@
+# Definición corporativa de "cliente activo" (Actividad 2.3).
+# Cualquier cambio entra por pull request y sube la versión.
+nombre: cliente_activo
+version: 1.0.0
+vigente_desde: 2026-10-01
+responsable: Líder de Analítica de Clientes
+descripcion: >
+  Cliente con al menos una compra válida en cualquier canal de la misma
+  cadena dentro de los 90 días anteriores a la fecha de corte.
+ventana_dias: 90
+canales: [pos, ecommerce]
+excluye:
+  - transacciones_anuladas
+  - devoluciones_totales
+  - compras_de_empleados
+nivel: cadena

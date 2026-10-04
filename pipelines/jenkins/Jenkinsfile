@@ -1,0 +1,61 @@
+// Pipeline de integración continua (CI) del repositorio.
+// Corre en cada push a una rama feature/* y en cada pull request.
+// En la Actividad 5 se amplía con las etapas de entrega continua (CD).
+
+pipeline {
+    agent {
+        docker { image 'python:3.12-slim' }
+    }
+
+    options {
+        timeout(time: 30, unit: 'MINUTES')
+        disableConcurrentBuilds()
+    }
+
+    stages {
+        stage('Instalar dependencias') {
+            steps {
+                sh 'pip install --no-cache-dir -r requirements.txt'
+            }
+        }
+
+        stage('Lint') {
+            steps {
+                sh 'ruff check src tests pipelines'
+            }
+        }
+
+        stage('Pruebas unitarias') {
+            steps {
+                sh 'pytest -q --junitxml=reportes/pruebas.xml'
+            }
+            post {
+                always {
+                    junit 'reportes/pruebas.xml'
+                }
+            }
+        }
+
+        stage('Validar Terraform') {
+            agent {
+                docker {
+                    image 'hashicorp/terraform:1.12'
+                    args '--entrypoint='
+                }
+            }
+            steps {
+                dir('infra/terraform') {
+                    sh 'terraform fmt -check -recursive'
+                    sh 'terraform init -backend=false'
+                    sh 'terraform validate'
+                }
+            }
+        }
+    }
+
+    post {
+        failure {
+            echo 'El pipeline falló. Hay que corregir la etapa en rojo antes de pedir revisión del pull request.'
+        }
+    }
+}

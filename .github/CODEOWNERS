@@ -1,0 +1,9 @@
+# Quién debe aprobar los cambios de cada carpeta.
+# En DataCorp cada línea apuntaría a un equipo, por ejemplo @datacorp/ingenieria-datos.
+# En este repositorio del taller todas apuntan al mismo usuario.
+
+*                   @gabrielr0103
+/infra/             @gabrielr0103
+/pipelines/         @gabrielr0103
+/mdm/               @gabrielr0103
+/config/prod.yaml   @gabrielr0103

@@ -76,3 +76,25 @@ Desarrollo completo en [docs/02-mdm.md](docs/02-mdm.md).
 - 2.2: diagrama del flujo de consolidación desde las fuentes hasta el registro maestro, y de la sincronización con los sistemas transaccionales y analíticos.
 - 2.3: políticas de gobernanza del dato maestro Cliente: definición de cliente activo, limpieza y deduplicación, flujo de aprobación de cambios, y acceso y seguridad.
 - 2.4: simulación de un conflicto entre dos definiciones de cliente activo, cómo lo resuelve MDM y su efecto en la replicabilidad de los modelos.
+
+### Evidencias
+
+Tabla de entidades maestras (2.1):
+
+![Entidades maestras](evidencias/02-entidades-maestras.png)
+
+Diagrama de consolidación y sincronización (2.2):
+
+![Diagrama MDM](evidencias/02-diagrama-mdm.png)
+
+Definición versionada de cliente activo (2.3):
+
+![Definición de cliente activo](evidencias/02-definicion-cliente-activo.png)
+
+Conflicto entre definiciones de cliente activo (2.4):
+
+![Conflicto de cliente activo](evidencias/02-conflicto-cliente-activo.png)
+
+Pull request de la actividad hacia `develop`:
+
+![Pull request Actividad 2](evidencias/02-pull-request.png)

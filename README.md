@@ -203,3 +203,19 @@ Desarrollo completo en [docs/04-iac.md](docs/04-iac.md). El código de Terraform
 Formato y sintaxis del código validados en local con Terraform 1.12.2:
 
 ![Validación de Terraform](evidencias/04-terraform-validate.png)
+
+Pull request de la actividad hacia `develop`, con la plantilla de revisión diligenciada:
+
+![Pull request Actividad 4](evidencias/04-pull-request.png)
+
+Commits de la actividad:
+
+![Commits de la actividad 4](evidencias/04-commits.png)
+
+Archivos de Terraform en el repositorio:
+
+![Carpeta de Terraform](evidencias/04-carpeta-terraform.png)
+
+Diagrama del flujo de trabajo de IaC (4.3):
+
+![Flujo de trabajo de IaC](evidencias/04-diagrama-flujo-iac.png)

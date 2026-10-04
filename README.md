@@ -293,3 +293,20 @@ Inicio del informe ejecutivo (6.3):
 Arquitectura DataOps completa (6.4):
 
 ![Arquitectura DataOps](evidencias/06-arquitectura.png)
+
+Pull request fusionado en `develop`:
+
+![PR Actividad 6 fusionado](evidencias/06-pr-fusionado.png)
+
+## Cierre del repositorio: versión v1.0.0
+
+Cada actividad se trabajó en su propia rama y entró a `develop` por pull request. Con las seis integradas, `develop` pasa a `main` con un último pull request y la versión queda marcada con la etiqueta `v1.0.0`. Es el mismo recorrido que la Actividad 1 propone para DataCorp: lo que llega a `main`, que hace de producción, pasó antes por `develop`, que hace de QA.
+
+| Pull request | Actividad | Rama |
+|---|---|---|
+| [#1](https://github.com/gabrielr0103/datacorp-dataops-taller-practico-ENDO-/pull/1) | 1. Diseño de entornos aislados | `feature/actividad-1-entornos` |
+| [#2](https://github.com/gabrielr0103/datacorp-dataops-taller-practico-ENDO-/pull/2) | 2. Implementación de MDM | `feature/actividad-2-mdm2` |
+| [#3](https://github.com/gabrielr0103/datacorp-dataops-taller-practico-ENDO-/pull/3) | 3. Control de versiones para todo | `feature/actividad-3-versionamiento` |
+| [#4](https://github.com/gabrielr0103/datacorp-dataops-taller-practico-ENDO-/pull/4) | 4. Infraestructura como Código | `feature/actividad-4-iac` |
+| [#5](https://github.com/gabrielr0103/datacorp-dataops-taller-practico-ENDO-/pull/5) | 5. Continuous Delivery para DataOps | `feature/actividad-5-cd` |
+| [#6](https://github.com/gabrielr0103/datacorp-dataops-taller-practico-ENDO-/pull/6) | 6. Integración final | `feature/actividad-6-integracion` |

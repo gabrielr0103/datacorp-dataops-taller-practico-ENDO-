@@ -166,3 +166,22 @@ Pruebas y linter ejecutados en local antes de abrir el pull request:
 
 ![Pruebas locales](evidencias/03-pruebas-locales.png)
 
+Pull request de la actividad hacia `develop`, con la plantilla de revisión diligenciada:
+
+![Pull request Actividad 3](evidencias/03-pull-request.png)
+
+Commits separados por tipo de artefacto (Conventional Commits):
+
+![Commits de la actividad 3](evidencias/03-commits.png)
+
+Estructura del repositorio en GitHub:
+
+![Estructura en GitHub](evidencias/03-estructura-github.png)
+
+Diagrama del flujo de revisión e integración con QA (3.3):
+
+![Flujo de revisión](evidencias/03-diagrama-revision.png)
+
+Regla de protección activa sobre `main` y `develop`:
+
+![Ruleset de protección](evidencias/03-ruleset.png)

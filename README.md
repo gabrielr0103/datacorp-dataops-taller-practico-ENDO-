@@ -243,3 +243,18 @@ Simulación con 15 % de nulos: el pipeline se detiene en el Test de Datos y term
 
 ![Fallo en el Test de Datos](evidencias/05-fallo-test-datos.png)
 
+Pull request de la actividad hacia `develop`, con la plantilla de revisión diligenciada:
+
+![Pull request Actividad 5](evidencias/05-pull-request.png)
+
+Commits de la actividad:
+
+![Commits de la actividad 5](evidencias/05-commits.png)
+
+Inicio del Jenkinsfile con las reglas por rama y la etapa Build & Test:
+
+![Jenkinsfile de CI/CD](evidencias/05-jenkinsfile.png)
+
+Diagrama del pipeline completo con los tres pilares (5.4):
+
+![Pipeline completo](evidencias/05-diagrama-pipeline.png)

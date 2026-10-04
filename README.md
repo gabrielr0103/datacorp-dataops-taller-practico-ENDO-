@@ -29,7 +29,7 @@ El repositorio aplica la misma lógica de entornos que se propone para la empres
 | 2 | Implementación de MDM | [docs/02-mdm.md](docs/02-mdm.md) | Completada |
 | 3 | Control de versiones para todo | [docs/03-control-versiones.md](docs/03-control-versiones.md) | Completada |
 | 4 | Infraestructura como Código | [docs/04-iac.md](docs/04-iac.md) | Completada |
-| 5 | Continuous Delivery para DataOps | [docs/05-continuous-delivery.md](docs/05-continuous-delivery.md) | Pendiente |
+| 5 | Continuous Delivery para DataOps | [docs/05-continuous-delivery.md](docs/05-continuous-delivery.md) | Completada |
 | 6 | Integración final | [docs/06-integracion-final.md](docs/06-integracion-final.md) | Pendiente |
 
 Las capturas de pantalla de cada actividad están en la carpeta [evidencias](evidencias/).   
@@ -219,3 +219,27 @@ Archivos de Terraform en el repositorio:
 Diagrama del flujo de trabajo de IaC (4.3):
 
 ![Flujo de trabajo de IaC](evidencias/04-diagrama-flujo-iac.png)
+
+Pull request fusionado en `develop`:
+
+![PR Actividad 4 fusionado](evidencias/04-pr-fusionado.png)
+
+## Actividad 5: Continuous Delivery para DataOps
+
+Desarrollo completo en [docs/05-continuous-delivery.md](docs/05-continuous-delivery.md). El pipeline está en [pipelines/jenkins/Jenkinsfile](pipelines/jenkins/Jenkinsfile).
+
+- 5.1: pipeline de CD del modelo de predicción de ventas con sus seis etapas, y qué corre en cada rama.
+- 5.2: herramientas, criterios de éxito y acciones en caso de fallo de cada etapa.
+- 5.3: simulación real de un fallo en el Test de Datos (15 % de nulos en `clientes_activos`) y protocolo de actuación.
+- 5.4: diagrama del pipeline completo con control de versiones, IaC y CD.
+
+### Evidencias
+
+Simulación del pipeline con datos válidos: pasa todas las etapas.
+
+![Simulación correcta](evidencias/05-simulacion-correcta.png)
+
+Simulación con 15 % de nulos: el pipeline se detiene en el Test de Datos y termina con código de salida 1.
+
+![Fallo en el Test de Datos](evidencias/05-fallo-test-datos.png)
+
